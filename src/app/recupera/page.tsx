@@ -1,17 +1,16 @@
 "use client"
 import { useRouter, useSearchParams } from "next/navigation"
 import { useForm } from "react-hook-form"
-import { useEffect, useState } from "react"
+import { useEffect, useState, Suspense } from "react"
 
 type Inputs = {
   codigo: string
   novaSenha: string
 }
 
-export default function RecuperaSenha() {
+function RecuperaSenhaComponent() {
   const { register, handleSubmit } = useForm<Inputs>()
   const [email, setEmail] = useState<string | null>(null)
-  const [mounted, setMounted] = useState(false) // Estado para verificar se o componente foi montado
   const router = useRouter()
   const searchParams = useSearchParams() // Usando useSearchParams para acessar a query string
 
@@ -73,5 +72,13 @@ export default function RecuperaSenha() {
         </div>
       </div>
     </section>
+  )
+}
+
+export default function RecuperaSenha() {
+  return (
+    <Suspense fallback={<div>Carregando...</div>}>
+      <RecuperaSenhaComponent />
+    </Suspense>
   )
 }
